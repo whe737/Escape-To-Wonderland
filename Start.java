@@ -23,7 +23,9 @@ public class Start extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentFrame.startPanel.setVisible(false);
-                parentFrame.panel.setVisible(true);
+                Panel pain = new Panel(parentFrame);
+                parentFrame.panel = pain;
+                parentFrame.add(pain);
             }
             
         });

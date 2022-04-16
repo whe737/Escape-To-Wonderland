@@ -7,6 +7,7 @@ public class Sprite
 {
     public static int x = 0;
     public static int y = 0;
+    public static int health = 100;
     private Rectangle rect; // x, y, width, height
     private int xVelocity;
     private int yVelocity;
