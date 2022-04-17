@@ -14,6 +14,7 @@ public class Panel extends JPanel
     JLabel scoreLabel = new JLabel("Score: " + score);
     
     Thread game;
+    Thread pointCounter;
 
     Sprite player = new Sprite(50, 300, new ImageIcon("./assets/playerIcon.png"),  150, 94, 0);
     ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used, and it was indeed not
@@ -227,7 +228,7 @@ public class Panel extends JPanel
         });
         shootersShoot.start();
 
-        Thread pointCounter = new Thread(new Runnable() {
+        pointCounter = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -311,6 +312,7 @@ public class Panel extends JPanel
         parentFrame.panel.setVisible(false);
         parentFrame.add(new EndScreen(parentFrame));
         game.stop();
+        pointCounter.stop();
     }
 
     public void shoot()

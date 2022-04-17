@@ -22,7 +22,7 @@ public class EndScreen extends JPanel
         JLabel background=new JLabel(back);
         JButton restartButton=new JButton(restartIcon);
         JLabel score=new JLabel("Your score was " + this.parentFrame.panel.score);//);
-        score.setFont(new Font("Calibri", Font.PLAIN, 64));
+        score.setFont(new Font("Calibri", Font.PLAIN, 50));
         background.setBounds(0,0,1280,720);
         score.setBounds(340,400,600,100);
         restartButton.setFocusable(false);
