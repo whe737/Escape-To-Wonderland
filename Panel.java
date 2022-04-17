@@ -6,9 +6,14 @@ public class Panel extends JPanel
     private Frame parentFrame;
     final int WIDTH = 1280;
     final int HEIGHT = 720;
+    boolean boss1 = false;
+
+    int score = 0;
+    JLabel scoreLabel = new JLabel("Score: " + score);
+    
     Thread game;
 
-    Sprite player = new Sprite(50, 300, 50, 60, 0, false);
+    Sprite player = new Sprite(50, 300, new ImageIcon("./assets/playerIcon.png"),  154, 70, 0);
     ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used
     ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
     ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
@@ -22,12 +27,15 @@ public class Panel extends JPanel
         this.setBounds(0, 0, WIDTH, HEIGHT);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // used with frame.pack()
 
-        obstacles.add(new Sprite(0, 0, 50, 50, 0, false));
-        for (int i =0; i < 4; i++)
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        scoreLabel.setBounds(550, 40, 300, 30);
+        this.add(scoreLabel);
+
+        for (int i =0; i < 5; i++) // nerf
         {
-            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 50, -(int)(Math.random() *3 + 2), false));
+            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
         }
-        shooters.add(new Sprite(WIDTH - 100, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 60, 1, false));
+        // shooters.add(new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 1));
         
 
         game = new Thread(new Runnable() {
@@ -36,6 +44,19 @@ public class Panel extends JPanel
             public void run() {
                 while (true)
                 {
+                    // bosses
+                    if (score == 200 && !boss1) 
+                    {
+                        boss1 = true;
+                        Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
+                        boss.setHealth(500);
+                        shooters.add(boss);
+                    }
+                    else if (score == 1000)
+                    {
+                        // TODO 
+                    }
+
                     // bullets
                     for (int i = 0; i < enemies.size(); i++)
                     {
@@ -43,13 +64,13 @@ public class Panel extends JPanel
                         if (enemies.get(i).x() < 0){
                             enemies.remove(i);
                             i--;
-                            enemies.add(new Sprite(WIDTH, (int) (Math.random() * (HEIGHT - 100) + 50), 50, 50, -(int)(Math.random() *3 + 2), false));
+                            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
                         }
                     }
 
                     player.moveHorizontally();
                     if (player.x() < 0) player.setX(0);
-                    else if (player.x() > WIDTH/4) player.setX(WIDTH/4);
+                    else if (player.x() > WIDTH/3) player.setX(WIDTH/3);
                     // object collision x axis
                     ArrayList<Sprite> collidesWith = player.collidesWith(obstacles);
                     if (collidesWith.size() > 0)
@@ -95,7 +116,7 @@ public class Panel extends JPanel
                             if(enemies.get(i) == enemy) 
                             {
                                 enemies.remove(i);
-                                enemies.add(new Sprite(WIDTH, (int) (Math.random() * (HEIGHT - 100) + 50), 50, 50, -(int)(Math.random() *3 + 2), false));
+                                enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
                             }
                         }
                     }
@@ -112,6 +133,7 @@ public class Panel extends JPanel
                             {
                                 s.bullets.remove(i);
                                 i--; 
+                                score += 300;
                             }
                         }
                         collidesWith = player.collidesWith(s.bullets);
@@ -162,6 +184,9 @@ public class Panel extends JPanel
                     background.moveHorizontally();
                     background2.moveHorizontally();
 
+                    if (background.x() == -2943) background.setX(2943);
+                    else if (background2.x() == -2943) background2.setX(2943);
+
                     repaint();
                     sleep(5);
                 }
@@ -180,13 +205,28 @@ public class Panel extends JPanel
                     {
                         s.bullets.add(new Sprite(s.x() + s.getWidth(), s.y(), 20, 20, -2, true));
                     }
-                    sleep(1000);
+                    sleep(250);
                 }
                 
             }
             
         });
         shootersShoot.start();
+
+        Thread pointCounter = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true)
+                {
+                    score += 5;
+                    scoreLabel.setText("Score: " + score);
+
+                    sleep(500);
+                }   
+            }
+        });
+        pointCounter.start();
     }
 
     public void paint(Graphics g)
@@ -194,9 +234,6 @@ public class Panel extends JPanel
         super.paint(g); // paint background
 		Graphics2D g2D = (Graphics2D) g;
         g2D.setBackground(Color.black);
-
-        background.draw(g2D);
-        background2.draw(g2D);
 
         player.draw(g2D);
 
@@ -220,6 +257,14 @@ public class Panel extends JPanel
         for (Sprite s: shooters){
             for (Sprite bullet: s.bullets) bullet.draw(g2D);
         }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2D = (Graphics2D) g;
+        background.draw(g2D);
+        background2.draw(g2D);
     }
 
     public void sleep(int mili)
@@ -251,6 +296,6 @@ public class Panel extends JPanel
 
     public void shoot()
     {
-        player.bullets.add(new Sprite(player.x() + player.getWidth(), player.y(), 20, 20, 2, true));
+        player.bullets.add(new Sprite(player.x() + player.getWidth(), player.y()+30, 20, 20, 2, true));
     }
 }

@@ -84,6 +84,7 @@ public class Sprite
     public void setY(int y) {rect.y = y;}
     public void setXVelocity(int velocity) {this.xVelocity = velocity;}
     public void setYVelocity(int velocity) {this.yVelocity = velocity;}
+    public void setHealth(int health) {this.spriteHealth = health;}
     public void inverseXVelocity() {xVelocity *= -1;}
     public void inverseYVelocity() {yVelocity *= -1;}
 

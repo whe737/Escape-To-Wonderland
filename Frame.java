@@ -3,7 +3,7 @@ import java.awt.event.*;
 public class Frame extends JFrame implements KeyListener
 {
     Panel panel;
-    Start startPanel;
+    Start startPanel= new Start(this);
     boolean on = true;
 
     boolean w = false;
@@ -14,9 +14,8 @@ public class Frame extends JFrame implements KeyListener
     {
         this.addKeyListener(this);
         this.setFocusable(true);
-        startPanel = new Start(this);
         this.add(startPanel);
-        this.setSize(800, 800);
+        this.setSize(1280, 720);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation(140, 50);
