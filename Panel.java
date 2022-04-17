@@ -15,7 +15,7 @@ public class Panel extends JPanel
     
     Thread game;
 
-    Sprite player = new Sprite(50, 300, new ImageIcon("./assets/playerIcon.png"),  154, 70, 0);
+    Sprite player = new Sprite(50, 300, new ImageIcon("./assets/playerIcon.png"),  150, 94, 0);
     ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used, and it was indeed not
     ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
     ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
