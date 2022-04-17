@@ -37,7 +37,7 @@ public class Panel extends JPanel
 
         for (int i =0; i < 4; i++) // nerf
         {
-            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
+            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 30, -(int)(Math.random() *3 + 2)));
         }
         // shooters.add(new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 1));
         
@@ -78,7 +78,7 @@ public class Panel extends JPanel
                         if (enemies.get(i).x() < 0){
                             enemies.remove(i);
                             i--;
-                            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
+                            enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 30, -(int)(Math.random() *3 + 2)));
                         }
                     }
 
@@ -130,7 +130,7 @@ public class Panel extends JPanel
                             if(enemies.get(i) == enemy) 
                             {
                                 enemies.remove(i);
-                                enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
+                                enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 30, -(int)(Math.random() *3 + 2)));
                             }
                         }
                     }
