@@ -1,2 +1,2 @@
-# mistake
-This is a big mistake, hence the singular form.
+# About this project
+This was a big mistake.
