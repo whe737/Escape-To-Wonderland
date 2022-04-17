@@ -49,21 +49,21 @@ public class Panel extends JPanel
                 while (true)
                 {
                     // bosses
-                    if (score == 200 && !boss1) 
+                    if (score == 150 && !boss1) 
                     {
                         boss1 = true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
                         boss.setHealth(400);
                         shooters.add(boss);
                     }
-                    if (score == 1000 && !boss2)
+                    if (score == 900 && !boss2)
                     {
                         boss2 = true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
                         boss.setHealth(500);
                         shooters.add(boss);
                     }
-                    if (score == 2000 && !boss3)
+                    if (score == 1900 && !boss3)
                     {
                         boss3=true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/ap.png"), 169, 219, 2);
