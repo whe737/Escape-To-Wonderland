@@ -25,7 +25,7 @@ public class Panel extends JPanel
         {
             enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 50, -(int)(Math.random() *3 + 2), false));
         }
-        shooters.add(new Sprite(WIDTH - 100, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 50, 0, false));
+        shooters.add(new Sprite(WIDTH - 100, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 60, 1, false));
         
 
         game = new Thread(new Runnable() {
@@ -66,7 +66,7 @@ public class Panel extends JPanel
                     player.moveVertically();
                     if (player.y() < 0) player.setY(0);
                     else if (player.y() +player.getHeight() > HEIGHT) player.setY(HEIGHT-player.getHeight());
-                    // object collision x axis
+                    // object collision y axis
                     collidesWith = player.collidesWith(obstacles);
                     if (collidesWith.size() > 0)
                     {
@@ -81,7 +81,7 @@ public class Panel extends JPanel
                     }
                     player.setYVelocity(0);
 
-                    // enemy collision
+                    // enemy movement and collision
                     collidesWith = player.collidesWith(enemies);
                     if (collidesWith.size() > 0)
                     {
@@ -102,7 +102,37 @@ public class Panel extends JPanel
                             }
                         }
                     }
-                    // Bullet collision
+                    // Shooter movement and shooting
+                    for (Sprite s : shooters)
+                    {
+                        s.moveVertically();
+                        if (s.y() < 0 || s.y() + s.getHeight() > HEIGHT) s.inverseYVelocity();
+                        for (int i = 0; i < s.bullets.size(); i++)
+                        {
+                            Sprite bullet = s.bullets.get(i);
+                            bullet.moveHorizontally();
+                            // if (bullet.x() < 0)
+                            // {
+                            //     s.bullets.remove(i);
+                            //     i--;
+                            // }
+                            // else{
+                            //     if (bullet.collides(player))
+                            //     {
+                            //         s.bullets.remove(i);
+                            //         Sprite.health -= 20;
+                            //         if (Sprite.health <= 0)
+                            //         {
+                            //             System.out.println("Player dead");
+                            //             endGame();
+                            //         }
+                            //     }
+                            // }
+                        }
+                    }
+
+
+                    // Bullet movement and collision for player
                     for (int i = 0; i < player.bullets.size(); i++)
                     {
                         player.bullets.get(i).moveHorizontally();
@@ -115,13 +145,13 @@ public class Panel extends JPanel
                             collidesWith = player.bullets.get(i).collidesWith(shooters);
                             if (collidesWith.size() > 0)
                             {
-                                player.bullets.remove(i);
+                                player.bullets.remove(i); // removes bullet after collision
                                 Sprite sprite = collidesWith.get(0);
                                 sprite.spriteHealth -= 20;
                                 if (sprite.spriteHealth < 0)
                                 {
                                     System.out.println("SHOOTER DEAD");
-                                    for (int j = 0; j < shooters.size(); j++) // REMOVES SHOOTER
+                                    for (int j = 0; j < shooters.size(); j++) // removes target
                                     {
                                         if (shooters.get(j) == sprite) 
                                         {
@@ -144,6 +174,23 @@ public class Panel extends JPanel
             
         });
         game.start();
+
+        Thread shootersShoot = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true){
+                    for (Sprite s : shooters)
+                    {
+                        s.bullets.add(new Sprite(s.x() + s.getWidth(), s.y(), 20, 20, -2, true));
+                    }
+                    sleep(1000);
+                }
+                
+            }
+            
+        });
+        shootersShoot.start();
     }
 
     public void paint(Graphics g)
@@ -160,14 +207,20 @@ public class Panel extends JPanel
         g2D.setColor(Color.red);
         for (Sprite s: enemies) s.draw(g2D);
 
-        g2D.setColor(Color.green);
-        g2D.fill3DRect(500, 20, Sprite.health * 2, 50, true);
+        g2D.setColor(Color.red);
+        g2D.fill3DRect(1040, 40, 200, 30, true);
+
+        g2D.setColor(Color.green); // health bar
+        g2D.fill3DRect(1040, 40, Sprite.health * 2, 30, true);
 
         g2D.setColor(Color.pink);
         for (Sprite s: shooters) s.draw(g2D);
 
         g2D.setColor(Color.yellow);
         for (Sprite s: player.bullets) s.draw(g2D);
+        for (Sprite s: shooters){
+            for (Sprite bullet: s.bullets) bullet.draw(g2D);
+        }
 
 
     }
