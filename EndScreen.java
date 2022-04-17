@@ -1,18 +1,17 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class EndScreen extends JPanel
 {
-    public EndScreen()
+    public EndScreen(Frame parrentFrame)
     {
         ImageIcon back=new ImageIcon("./assets/gameOver.png");
         ImageIcon restartIcon=new ImageIcon("./assets/restartButton.png");
         JLabel background=new JLabel(back);
         JButton restartButton=new JButton(restartIcon);
-        JLabel score=new JLabel("Your score was ");//);
+        JLabel score=new JLabel("Your score was " + parrentFrame.panel.score);//);
         score.setFont(new Font("Calibri", Font.PLAIN, 64));
         background.setBounds(0,0,1280,720);
         score.setBounds(340,400,600,100);
@@ -26,6 +25,8 @@ public class EndScreen extends JPanel
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                Sprite.health = 100;
+                parrentFrame.dispose();
                 new Frame();
             }
         });

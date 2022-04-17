@@ -82,7 +82,7 @@ public class Panel extends JPanel
 
                     player.moveHorizontally();
                     if (player.x() < 0) player.setX(0);
-                    else if (player.x() > WIDTH/3) player.setX(WIDTH/3);
+                    else if (player.x() > WIDTH/2) player.setX(WIDTH/2);
                     // object collision x axis
                     ArrayList<Sprite> collidesWith = player.collidesWith(obstacles);
                     if (collidesWith.size() > 0)
@@ -145,7 +145,6 @@ public class Panel extends JPanel
                             {
                                 s.bullets.remove(i);
                                 i--; 
-                                score += 300;
                             }
                         }
                         collidesWith = player.collidesWith(s.bullets);
@@ -179,6 +178,7 @@ public class Panel extends JPanel
                                 if (sprite.spriteHealth < 0)
                                 {
                                     System.out.println("SHOOTER DEAD");
+                                    score += 300;
                                     for (int j = 0; j < shooters.size(); j++) // removes target
                                     {
                                         if (shooters.get(j) == sprite) 
@@ -217,7 +217,7 @@ public class Panel extends JPanel
                     {
                         s.bullets.add(new Sprite(s.x() + s.getWidth(), s.y(), 20, 20, -2, true));
                     }
-                    sleep(250);
+                    sleep(450);
                 }
                 
             }
@@ -307,7 +307,7 @@ public class Panel extends JPanel
     {
         System.out.println("GAME OVER");
         parentFrame.panel.setVisible(false);
-        parentFrame.add(new EndScreen());
+        parentFrame.add(new EndScreen(parentFrame));
         game.stop();
     }
 
