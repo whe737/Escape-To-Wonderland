@@ -30,11 +30,11 @@ public class Frame extends JFrame implements KeyListener
             public void run() {
                 while (on)
                 {
-                    if (w) panel.player.setYVelocity(-2);
-                    else if (s) panel.player.setYVelocity(2);
+                    if (w&&panel!=null) panel.player.setYVelocity(-2);
+                    else if (s&&panel!=null) panel.player.setYVelocity(2);
 
-                    if (a) panel.player.setXVelocity(-2);
-                    else if (d) panel.player.setXVelocity(2);
+                    if (a&&panel!=null) panel.player.setXVelocity(-2);
+                    else if (d&&panel!=null) panel.player.setXVelocity(2);
                     sleep(5);
                 }
                 

@@ -12,8 +12,8 @@ public class Panel extends JPanel
     ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used
     ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
     ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
-    Sprite background = new Sprite(0, 0, new ImageIcon("./assets/skyBG.png"), 5885, 1500, -1);
-    Sprite background2 = new Sprite(5885, 0, new ImageIcon("./assets/skyBG2.png"), 5885, 1500, -1);
+    Sprite background = new Sprite(0, 0, new ImageIcon("./assets/skyBG.png"), 2943, 750, -1);
+    Sprite background2 = new Sprite(2943, 0, new ImageIcon("./assets/skyBG2.png"), 2953, 750, -1);
     
     public Panel(Frame parentFrame)
     {
