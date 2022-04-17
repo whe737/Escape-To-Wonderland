@@ -33,7 +33,7 @@ public class Panel extends JPanel
         scoreLabel.setBounds(550, 40, 300, 30);
         this.add(scoreLabel);
 
-        for (int i =0; i < 5; i++) // nerf
+        for (int i =0; i < 4; i++) // nerf
         {
             enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), new ImageIcon("./assets/nerf.png"), 86, 15, -(int)(Math.random() *3 + 2)));
         }
@@ -51,17 +51,17 @@ public class Panel extends JPanel
                     {
                         boss1 = true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
-                        boss.setHealth(500);
+                        boss.setHealth(400);
                         shooters.add(boss);
                     }
-                    if (score == 10000 && !boss2)
+                    if (score == 1000 && !boss2)
                     {
                         boss2 = true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
                         boss.setHealth(500);
                         shooters.add(boss);
                     }
-                    if (score == 20000 && !boss3)
+                    if (score == 2000 && !boss3)
                     {
                         boss3=true;
                         Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/ap.png"), 169, 219, 2);
@@ -179,6 +179,8 @@ public class Panel extends JPanel
                                 {
                                     System.out.println("SHOOTER DEAD");
                                     score += 300;
+                                    Sprite.health += 50;
+                                    if (Sprite.health > 100) Sprite.health = 100;
                                     for (int j = 0; j < shooters.size(); j++) // removes target
                                     {
                                         if (shooters.get(j) == sprite) 
