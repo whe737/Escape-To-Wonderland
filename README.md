@@ -1,2 +1,2 @@
 # About this project
-This was a big mistake.
+Game made by Wilson and Kacper in less than a day.
