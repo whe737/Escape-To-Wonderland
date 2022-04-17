@@ -11,17 +11,21 @@ public class EndScreen extends JPanel
     private Frame parentFrame;
     private ArrayList<ScoreObject> scores;
     private JScrollPane scrollPane;
+    private int scoreNum = 0;
     public EndScreen(Frame parentFrame)
     {
         this.parentFrame = parentFrame;
         scrollPane = new JScrollPane();
         scrollPane.setBounds(900, 300, 300, 350);
         this.add(scrollPane);
+
+        scoreNum = this.parentFrame.panel.score;
+
         ImageIcon back=new ImageIcon("./assets/gameOver.png");
         ImageIcon restartIcon=new ImageIcon("./assets/restartButton.png");
         JLabel background=new JLabel(back);
         JButton restartButton=new JButton(restartIcon);
-        JLabel score=new JLabel("Your score was " + this.parentFrame.panel.score);//);
+        JLabel score=new JLabel("Your score was " + this.scoreNum);//);
         score.setFont(new Font("Calibri", Font.PLAIN, 50));
         background.setBounds(0,0,1280,720);
         score.setBounds(340,400,600,100);
@@ -59,7 +63,7 @@ public class EndScreen extends JPanel
         try {
             // updates values in arraylist
             String name = JOptionPane.showInputDialog(parentFrame, "What is your name?");
-            scores.add(new ScoreObject(name, parentFrame.panel.score));
+            scores.add(new ScoreObject(name, scoreNum));
             sort(scores);
             System.out.println(scores);
             String[] col= {"Name", "Score"};

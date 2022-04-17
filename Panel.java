@@ -9,6 +9,7 @@ public class Panel extends JPanel
     boolean boss1 = false;
     boolean boss2=false;
     boolean boss3=false;
+    boolean count = true;
 
     int score = 0;
     JLabel scoreLabel = new JLabel("Score: " + score);
@@ -232,7 +233,7 @@ public class Panel extends JPanel
 
             @Override
             public void run() {
-                while (true)
+                while (count)
                 {
                     score += 5;
                     scoreLabel.setText("Score: " + score);
@@ -312,7 +313,7 @@ public class Panel extends JPanel
         parentFrame.panel.setVisible(false);
         parentFrame.add(new EndScreen(parentFrame));
         game.stop();
-        pointCounter.stop();
+        count = false;
     }
 
     public void shoot()
