@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
 public class Start extends JPanel{
     private final int WIDTH = 1280;
     private final int HEIGHT = 720;
@@ -16,8 +17,18 @@ public class Start extends JPanel{
 
     private void addComponents()
     {
+        ImageIcon buttonIcon=new ImageIcon("./assets/startButton.png");
+        ImageIcon tutorialBG=new ImageIcon("./assets/tutorial.png");
+        JLabel background=new JLabel(tutorialBG);
         JButton startButton = new JButton();
-        startButton.setBounds(540, 300, 200, 100);
+        startButton.setFocusable(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setFocusPainted(false);
+        startButton.setBorderPainted(false);
+        startButton.setVisible(true);
+        startButton.setIcon(buttonIcon);
+        startButton.setBounds(500, 558, 250, 110);
+        background.setBounds(0,0,1280,720);
         startButton.addActionListener(new ActionListener(){
 
             @Override
@@ -30,5 +41,6 @@ public class Start extends JPanel{
             
         });
         this.add(startButton);
+        this.add(background);
     }
 }

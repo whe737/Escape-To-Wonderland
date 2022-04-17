@@ -7,6 +7,8 @@ public class Panel extends JPanel
     final int WIDTH = 1280;
     final int HEIGHT = 720;
     boolean boss1 = false;
+    boolean boss2=false;
+    boolean boss3=false;
 
     int score = 0;
     JLabel scoreLabel = new JLabel("Score: " + score);
@@ -14,12 +16,12 @@ public class Panel extends JPanel
     Thread game;
 
     Sprite player = new Sprite(50, 300, new ImageIcon("./assets/playerIcon.png"),  154, 70, 0);
-    ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used
+    ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used, and it was indeed not
     ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
     ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
     Sprite background = new Sprite(0, 0, new ImageIcon("./assets/skyBG.png"), 2943, 750, -1);
     Sprite background2 = new Sprite(2943, 0, new ImageIcon("./assets/skyBG2.png"), 2953, 750, -1);
-    
+
     public Panel(Frame parentFrame)
     {
         this.parentFrame = parentFrame;
@@ -52,9 +54,19 @@ public class Panel extends JPanel
                         boss.setHealth(500);
                         shooters.add(boss);
                     }
-                    else if (score == 1000)
+                    if (score == 10000 && !boss2)
                     {
-                        // TODO 
+                        boss2 = true;
+                        Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/boss.png"), 230, 219, 2);
+                        boss.setHealth(500);
+                        shooters.add(boss);
+                    }
+                    if (score == 20000 && !boss3)
+                    {
+                        boss3=true;
+                        Sprite boss = new Sprite(WIDTH - 150, (int)(Math.random() * (HEIGHT - 219)), new ImageIcon("./assets/ap.png"), 169, 219, 2);
+                        boss.setHealth(500);
+                        shooters.add(boss);
                     }
 
                     // bullets
@@ -265,6 +277,11 @@ public class Panel extends JPanel
         Graphics2D g2D = (Graphics2D) g;
         background.draw(g2D);
         background2.draw(g2D);
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 
     public void sleep(int mili)
