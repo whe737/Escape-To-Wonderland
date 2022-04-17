@@ -13,6 +13,8 @@ public class Sprite
     private int yVelocity;
     private Image image;
     private boolean isElipse;
+    public int spriteHealth = 100;
+    ArrayList<Sprite> bullets = new ArrayList<>();
 
     public Sprite(int x, int y, ImageIcon image, int width, int height, int velocity)
     {

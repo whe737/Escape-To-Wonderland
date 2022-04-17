@@ -9,8 +9,10 @@ public class Panel extends JPanel
     Thread game;
 
     Sprite player = new Sprite(50, 300, 50, 60, 0, false);
-    ArrayList<Sprite> obstacles = new ArrayList<>();
-    ArrayList<Sprite> enemies = new ArrayList<>();
+    ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used
+    ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
+    ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
+    
     public Panel(Frame parentFrame)
     {
         this.parentFrame = parentFrame;
@@ -23,6 +25,7 @@ public class Panel extends JPanel
         {
             enemies.add(new Sprite(WIDTH, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 50, -(int)(Math.random() *3 + 2), false));
         }
+        shooters.add(new Sprite(WIDTH - 100, (int)(Math.random() * (HEIGHT - 100) + 50), 50, 50, 0, false));
         
 
         game = new Thread(new Runnable() {
@@ -99,6 +102,39 @@ public class Panel extends JPanel
                             }
                         }
                     }
+                    // Bullet collision
+                    for (int i = 0; i < player.bullets.size(); i++)
+                    {
+                        player.bullets.get(i).moveHorizontally();
+                        if (player.bullets.get(i).x() > WIDTH)
+                        {
+                            player.bullets.remove(i);
+                            i--;
+                        }
+                        else{
+                            collidesWith = player.bullets.get(i).collidesWith(shooters);
+                            if (collidesWith.size() > 0)
+                            {
+                                player.bullets.remove(i);
+                                Sprite sprite = collidesWith.get(0);
+                                sprite.spriteHealth -= 20;
+                                if (sprite.spriteHealth < 0)
+                                {
+                                    System.out.println("SHOOTER DEAD");
+                                    for (int j = 0; j < shooters.size(); j++) // REMOVES SHOOTER
+                                    {
+                                        if (shooters.get(j) == sprite) 
+                                        {
+                                            shooters.remove(j);
+                                            j--;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+
 
                     repaint();
                     sleep(5);
@@ -123,6 +159,17 @@ public class Panel extends JPanel
 
         g2D.setColor(Color.red);
         for (Sprite s: enemies) s.draw(g2D);
+
+        g2D.setColor(Color.green);
+        g2D.fill3DRect(500, 20, Sprite.health * 2, 50, true);
+
+        g2D.setColor(Color.pink);
+        for (Sprite s: shooters) s.draw(g2D);
+
+        g2D.setColor(Color.yellow);
+        for (Sprite s: player.bullets) s.draw(g2D);
+
+
     }
 
     public void sleep(int mili)
@@ -140,5 +187,10 @@ public class Panel extends JPanel
         parentFrame.panel.setVisible(false);
         parentFrame.add(new EndScreen());
         game.stop();
+    }
+
+    public void shoot()
+    {
+        player.bullets.add(new Sprite(player.x() + player.getWidth(), player.y(), 20, 20, 2, true));
     }
 }

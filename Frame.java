@@ -19,7 +19,7 @@ public class Frame extends JFrame implements KeyListener
         this.setSize(800, 800);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null); // middle of screen
+        this.setLocation(140, 50);
         this.pack();
         this.setVisible(true);
         
@@ -65,6 +65,7 @@ public class Frame extends JFrame implements KeyListener
         else if (key == 65) a = false;
         else if (key == 83) s = false;
         else if (key == 68) d = false;
+        else if (key == 32) panel.shoot();
         
     }
 
@@ -73,7 +74,6 @@ public class Frame extends JFrame implements KeyListener
         try {
             Thread.sleep(mili);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
