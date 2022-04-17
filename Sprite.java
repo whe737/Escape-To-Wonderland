@@ -132,4 +132,8 @@ public class Sprite
         return onPlatform;
     }
 
+    public String toString()
+    {
+        return "X: " + rect.x + " Y: " + rect.y;
+    }
 }

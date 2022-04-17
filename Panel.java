@@ -12,6 +12,8 @@ public class Panel extends JPanel
     ArrayList<Sprite> obstacles = new ArrayList<>(); // prob not gonna be used
     ArrayList<Sprite> enemies = new ArrayList<>(); // nerf darts
     ArrayList<Sprite> shooters = new ArrayList<>(); // enemies that shoot pellets
+    Sprite background = new Sprite(0, 0, new ImageIcon("./assets/skyBG.png"), 5885, 1500, -1);
+    Sprite background2 = new Sprite(5885, 0, new ImageIcon("./assets/skyBG2.png"), 5885, 1500, -1);
     
     public Panel(Frame parentFrame)
     {
@@ -86,13 +88,8 @@ public class Panel extends JPanel
                     if (collidesWith.size() > 0)
                     {
                         Sprite enemy = collidesWith.get(0);
-                        Sprite.health -= 20;
+                        damagePlayer();
                         System.out.println("Player got hit by " + enemy + "Player Health: " + Sprite.health);
-                        if (Sprite.health <= 0)
-                        {
-                            System.out.println("Player dead");
-                            endGame();
-                        }
                         for (int i = 0; i < enemies.size(); i++)
                         {
                             if(enemies.get(i) == enemy) 
@@ -111,23 +108,20 @@ public class Panel extends JPanel
                         {
                             Sprite bullet = s.bullets.get(i);
                             bullet.moveHorizontally();
-                            // if (bullet.x() < 0)
-                            // {
-                            //     s.bullets.remove(i);
-                            //     i--;
-                            // }
-                            // else{
-                            //     if (bullet.collides(player))
-                            //     {
-                            //         s.bullets.remove(i);
-                            //         Sprite.health -= 20;
-                            //         if (Sprite.health <= 0)
-                            //         {
-                            //             System.out.println("Player dead");
-                            //             endGame();
-                            //         }
-                            //     }
-                            // }
+                            if (bullet.x() < 0)
+                            {
+                                s.bullets.remove(i);
+                                i--; 
+                            }
+                        }
+                        collidesWith = player.collidesWith(s.bullets);
+                        if (collidesWith.size() > 0)
+                        {
+                                for (int i = 0; i < s.bullets.size(); i++)
+                                {
+                                    if (s.bullets.get(i) == collidesWith.get(0)) s.bullets.remove(i);
+                                }
+                                damagePlayer();
                         }
                     }
 
@@ -162,9 +156,11 @@ public class Panel extends JPanel
                                 }
                             }
                         }
-                        
                     }
-
+                    
+                    //background
+                    background.moveHorizontally();
+                    background2.moveHorizontally();
 
                     repaint();
                     sleep(5);
@@ -199,6 +195,9 @@ public class Panel extends JPanel
 		Graphics2D g2D = (Graphics2D) g;
         g2D.setBackground(Color.black);
 
+        background.draw(g2D);
+        background2.draw(g2D);
+
         player.draw(g2D);
 
         g2D.setColor(Color.blue);
@@ -221,8 +220,6 @@ public class Panel extends JPanel
         for (Sprite s: shooters){
             for (Sprite bullet: s.bullets) bullet.draw(g2D);
         }
-
-
     }
 
     public void sleep(int mili)
@@ -231,6 +228,16 @@ public class Panel extends JPanel
             Thread.sleep(mili);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void damagePlayer()
+    {
+        Sprite.health -= 20;
+        if (Sprite.health <= 0)
+        {
+            System.out.println("Player dead");
+            endGame();
         }
     }
 
